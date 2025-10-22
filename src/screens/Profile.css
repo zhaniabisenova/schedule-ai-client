@@ -1,0 +1,33 @@
+.profile-page {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.profile-card {
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.profile-view .row {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.profile-view .row:last-of-type {
+    border-bottom: none;
+}
+
+@media (max-width: 576px) {
+    .profile-card .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .d-flex.gap-2 {
+        flex-direction: column;
+    }
+    
+    .d-flex.gap-2 button {
+        width: 100%;
+    }
+}

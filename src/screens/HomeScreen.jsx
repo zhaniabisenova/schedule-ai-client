@@ -1,121 +1,194 @@
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react"
+import { useNavigate } from "react-router-dom"
+import { Container, Row, Col, Card } from "react-bootstrap"
+import { Calendar3, Person, BarChart, Upload, Grid, People } from "react-bootstrap-icons"
+import { useAuth } from "../hooks/useAuth.jsx"
+import { Button } from "../components/ui/Button.jsx"
+import "./HomeScreen.css"
 
 export const HomeScreen = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const { user } = useAuth()
+
+    // Контент в зависимости от роли
+    const getRoleContent = () => {
+        if (!user) return null
+
+        if (user.role === 'student') {
+            return {
+                title: `Сәлем, ${user.name}!`,
+                subtitle: `Топ: ${user.group} • ${user.faculty}`,
+                features: [
+                    {
+                        icon: Calendar3,
+                        title: 'Менің кестем',
+                        description: 'Сіздің топ үшін жеке сабақ кестесін қараңыз',
+                        action: () => navigate('/schedule'),
+                        buttonText: 'Кестені ашу',
+                        color: 'primary'
+                    },
+                    {
+                        icon: Person,
+                        title: 'Профиль',
+                        description: 'Жеке мәліметтерді қарау және өзгерту',
+                        action: () => navigate('/profile'),
+                        buttonText: 'Профильге өту',
+                        color: 'secondary'
+                    },
+                    {
+                        icon: BarChart,
+                        title: 'Статистика',
+                        description: 'Қатысу және үлгерім туралы ақпарат',
+                        action: () => alert('Әзірлеу кезеңінде'),
+                        buttonText: 'Статистика',
+                        color: 'success'
+                    }
+                ]
+            }
+        }
+
+        if (user.role === 'teacher') {
+            return {
+                title: `Сәлем, ${user.name}!`,
+                subtitle: `${user.department}`,
+                features: [
+                    {
+                        icon: Calendar3,
+                        title: 'Менің сабақтарым',
+                        description: 'Сіздің жүргізетін сабақтардың кестесі',
+                        action: () => navigate('/schedule'),
+                        buttonText: 'Кестені қарау',
+                        color: 'primary'
+                    },
+                    {
+                        icon: People,
+                        title: 'Топтар',
+                        description: 'Сіздің топтарыңыздың тізімі мен мәліметтері',
+                        action: () => alert('Әзірлеу кезеңінде'),
+                        buttonText: 'Топтар',
+                        color: 'success'
+                    },
+                    {
+                        icon: Person,
+                        title: 'Профиль',
+                        description: 'Жеке мәліметтер және параметрлер',
+                        action: () => navigate('/profile'),
+                        buttonText: 'Профиль',
+                        color: 'secondary'
+                    }
+                ]
+            }
+        }
+
+        if (user.role === 'dispatcher') {
+            return {
+                title: `Сәлем, ${user.name}!`,
+                subtitle: `${user.department}`,
+                features: [
+                    {
+                        icon: Upload,
+                        title: 'Деректерді жүктеу',
+                        description: 'Кесте үшін бастапқы деректерді жүктеңіз',
+                        action: () => navigate('/upload'),
+                        buttonText: 'Жүктеу',
+                        color: 'primary'
+                    },
+                    {
+                        icon: Grid,
+                        title: 'Кесте басқару',
+                        description: 'Құрылған кестелерді қарау және өңдеу',
+                        action: () => navigate('/schedule'),
+                        buttonText: 'Кестелер',
+                        color: 'success'
+                    },
+                    {
+                        icon: BarChart,
+                        title: 'Аналитика',
+                        description: 'Кесте статистикасы және есептер',
+                        action: () => alert('Әзірлеу кезеңінде'),
+                        buttonText: 'Аналитика',
+                        color: 'secondary'
+                    }
+                ]
+            }
+        }
+    }
+
+    const content = getRoleContent()
 
     return (
-        <div className="container-fluid min-vh-100 d-flex flex-column bg-light">
-            {/* Navigation Bar */}
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
-                <div className="container">
-                    <a className="navbar-brand" href="#">AI Университет Кестесі</a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <button className="nav-link btn btn-link text-white" onClick={() => navigate("/")}>Басты бет</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link btn btn-link text-white" onClick={() => navigate("/scheduler")}>Кесте</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link btn btn-link text-white" onClick={() => navigate("/profile")}>Профиль</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link btn btn-link text-white" onClick={() => navigate("/admin")}>Админ</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link btn btn-link text-white" onClick={() => navigate("/login")}>Кіру</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
+        <div className="home-screen">
             {/* Hero Section */}
-            <section className="bg-primary text-white text-center py-5">
-                <div className="container">
-                    <h1 className="display-3 fw-bold">AI арқылы Университет Кестесін Автоматтандыру</h1>
-                    <p className="lead my-4">Сіздің оқу кестеңізді оңтайландыруға және уақытты үнемдеуге арналған инновациялық шешім</p>
-                    <button 
-                        className="btn btn-warning btn-lg"
-                        onClick={() => navigate("/scheduler")}
-                    >
-                        Бастау
-                    </button>
-                </div>
+            <section className="hero-section">
+                <Container>
+                    <div className="hero-content text-center text-white">
+                        <h1 className="display-4 fw-bold mb-3">{content?.title}</h1>
+                        <p className="lead">{content?.subtitle}</p>
+                    </div>
+                </Container>
             </section>
 
             {/* Features Section */}
-            <section className="container my-5">
-                <h2 className="text-center mb-5">Негізгі Мүмкіндіктер</h2>
-                <div className="row text-center">
-                    <div className="col-md-4 mb-4">
-                        <div className="card h-100 shadow-sm">
-                            <div className="card-body">
-                                <h3 className="card-title">Ақылды Кесте</h3>
-                                <p className="card-text">AI сіздің қажеттіліктеріңізге бейімделген оңтайлы кестелер жасайды.</p>
-                                <button 
-                                    className="btn btn-primary"
-                                    onClick={() => navigate("/scheduler")}
-                                >
-                                    Кестені зерттеу
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-4">
-                        <div className="card h-100 shadow-sm">
-                            <div className="card-body">
-                                <h3 className="card-title">Пайдаланушы Панелі</h3>
-                                <p className="card-text">Сабақтарыңызды, мерзімдерді және параметрлерді бір жерде басқарыңыз.</p>
-                                <button 
-                                    className="btn btn-info"
-                                    onClick={() => navigate("/profile")}
-                                >
-                                    Профильді көру
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-4">
-                        <div className="card h-100 shadow-sm">
-                            <div className="card-body">
-                                <h3 className="card-title">Админ Басқару</h3>
-                                <p className="card-text">Кестелерді қадағалаңыз, пайдаланушыларды басқарыңыз және AI параметрлерін реттеңіз.</p>
-                                <button 
-                                    className="btn btn-warning"
-                                    onClick={() => navigate("/admin")}
-                                >
-                                    Админ Панелі
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <section className="features-section py-5">
+                <Container>
+                    <Row className="g-4">
+                        {content?.features.map((feature, index) => {
+                            const IconComponent = feature.icon
+                            return (
+                                <Col key={index} xs={12} md={6} lg={4}>
+                                    <Card className="feature-card h-100 shadow-sm">
+                                        <Card.Body className="d-flex flex-column p-4">
+                                            <div className="feature-icon-wrapper mb-3">
+                                                <IconComponent size={32} className="feature-icon" />
+                                            </div>
+                                            <Card.Title className="h5 mb-3 fw-bold">
+                                                {feature.title}
+                                            </Card.Title>
+                                            <Card.Text className="text-muted mb-4 flex-grow-1">
+                                                {feature.description}
+                                            </Card.Text>
+                                            <Button
+                                                variant={feature.color}
+                                                className="w-100"
+                                                onClick={feature.action}
+                                            >
+                                                {feature.buttonText}
+                                            </Button>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            )
+                        })}
+                    </Row>
+                </Container>
             </section>
 
-            {/* About Section */}
-            <section className="bg-secondary text-white py-5">
-                <div className="container">
-                    <h2 className="text-center mb-4">Біз туралы</h2>
-                    <p className="lead text-center">AI Университет Кестесі – бұл оқу процесін жеңілдетуге және тиімділікті арттыруға арналған заманауи платформа. Біздің миссиямыз – білім беру мекемелеріне уақытты басқаруда және кесте құруда көмектесу.</p>
-                </div>
+            {/* Info Section */}
+            <section className="info-section py-5 bg-light">
+                <Container>
+                    <Row className="align-items-center">
+                        <Col lg={6} className="mb-4 mb-lg-0">
+                            <h2 className="mb-4">AI арқылы кесте құру</h2>
+                            <p className="lead mb-3">
+                                Кесте AI - жасанды интеллект технологиясын пайдаланып, 
+                                университет кестесін автоматты түрде құратын заманауи жүйе.
+                            </p>
+                            <ul className="feature-list">
+                                <li>✅ Автоматты кесте құру</li>
+                                <li>✅ Қақтығыстарды болдырмау</li>
+                                <li>✅ Оңтайлы уақыт бөлу</li>
+                                <li>✅ Жылдам өзгерістер енгізу</li>
+                            </ul>
+                        </Col>
+                        <Col lg={6}>
+                            <div className="info-image-placeholder bg-primary text-white p-5 rounded text-center">
+                                <h3 className="mb-3">📚</h3>
+                                <p className="mb-0">Gemini AI моделімен жұмыс істейді</p>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
             </section>
-
-            {/* Footer */}
-            <footer className="bg-dark text-white text-center py-3 mt-auto">
-                <p className="mb-0">© 2025 AI Университет Кестесі. Барлық құқықтар қорғалған.</p>
-                <button 
-                    className="btn btn-link text-white"
-                    onClick={() => navigate("/login")}
-                >
-                    Кіру
-                </button>
-            </footer>
         </div>
-    );
-};
+    )
+}

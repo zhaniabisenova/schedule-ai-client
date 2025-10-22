@@ -1,0 +1,52 @@
+.admin-home-screen {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.admin-home-screen .table {
+    font-size: 0.9rem;
+}
+
+.admin-home-screen .table th {
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.admin-home-screen .table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.admin-home-screen .table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-home-screen .card {
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+@media (max-width: 768px) {
+    .admin-home-screen .table {
+        font-size: 0.85rem;
+    }
+    
+    .admin-home-screen .table th,
+    .admin-home-screen .table td {
+        padding: 0.5rem;
+    }
+}

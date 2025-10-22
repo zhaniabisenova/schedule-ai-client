@@ -1,0 +1,139 @@
+.modern-btn {
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.modern-btn:active {
+    transform: scale(0.98);
+}
+
+.modern-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Primary Button */
+.modern-btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.modern-btn-primary:hover:not(:disabled) {
+    background-color: #0b5ed7;
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
+}
+
+/* Secondary Button */
+.modern-btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.modern-btn-secondary:hover:not(:disabled) {
+    background-color: #5c636a;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.25);
+}
+
+/* Success Button */
+.modern-btn-success {
+    background-color: #198754;
+    color: white;
+}
+
+.modern-btn-success:hover:not(:disabled) {
+    background-color: #157347;
+    box-shadow: 0 2px 8px rgba(25, 135, 84, 0.25);
+}
+
+/* Danger Button */
+.modern-btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.modern-btn-danger:hover:not(:disabled) {
+    background-color: #bb2d3b;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.25);
+}
+
+/* Warning Button */
+.modern-btn-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.modern-btn-warning:hover:not(:disabled) {
+    background-color: #ffca2c;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.25);
+}
+
+/* Info Button */
+.modern-btn-info {
+    background-color: #0dcaf0;
+    color: #000;
+}
+
+.modern-btn-info:hover:not(:disabled) {
+    background-color: #31d2f2;
+    box-shadow: 0 2px 8px rgba(13, 202, 240, 0.25);
+}
+
+/* Outline Button */
+.modern-btn-outline {
+    background: transparent;
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.modern-btn-outline:hover:not(:disabled) {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Light Button */
+.modern-btn-light {
+    background-color: #f8f9fa;
+    color: #212529;
+    border: 1px solid #dee2e6;
+}
+
+.modern-btn-light:hover:not(:disabled) {
+    background-color: #e9ecef;
+}
+
+/* Dark Button */
+.modern-btn-dark {
+    background-color: #212529;
+    color: white;
+}
+
+.modern-btn-dark:hover:not(:disabled) {
+    background-color: #1c1f23;
+    box-shadow: 0 2px 8px rgba(33, 37, 41, 0.25);
+}
+
+/* Sizes */
+.modern-btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.modern-btn-md {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.modern-btn-lg {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 10px;
+}

@@ -1,0 +1,256 @@
+.schedule-editor {
+  padding: 2rem 1rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.schedule-editor h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Stat Cards */
+.schedule-editor .stat-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  height: 100%;
+}
+
+.schedule-editor .stat-card .card-body {
+  padding: 1.5rem;
+}
+
+.schedule-editor .stat-card h6 {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.schedule-editor .stat-card h2 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+/* Schedule Table */
+.schedule-table {
+  width: 100%;
+  min-width: 1200px;
+}
+
+.schedule-table thead th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  padding: 1rem;
+  border: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.schedule-table .time-column {
+  width: 120px;
+  min-width: 120px;
+}
+
+.schedule-table .day-column {
+  width: calc((100% - 120px) / 6);
+}
+
+.schedule-table tbody td {
+  padding: 0;
+  vertical-align: top;
+  border: 1px solid #e0e0e0;
+}
+
+.schedule-table .time-cell {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  font-weight: 500;
+  color: #495057;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.schedule-table .lesson-cell {
+  min-height: 150px;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.schedule-table .empty-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  color: #bdc3c7;
+  font-size: 0.9rem;
+}
+
+/* Lesson Card */
+.lesson-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.lesson-card:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+.lesson-card.lesson-lecture {
+  border-left: 4px solid #667eea;
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, white 20%);
+}
+
+.lesson-card.lesson-practice {
+  border-left: 4px solid #38ef7d;
+  background: linear-gradient(90deg, rgba(56, 239, 125, 0.05) 0%, white 20%);
+}
+
+.lesson-card.lesson-lab {
+  border-left: 4px solid #f5576c;
+  background: linear-gradient(90deg, rgba(245, 87, 108, 0.05) 0%, white 20%);
+}
+
+.lesson-card.lesson-physical_education {
+  border-left: 4px solid #00f2fe;
+  background: linear-gradient(90deg, rgba(0, 242, 254, 0.05) 0%, white 20%);
+}
+
+.lesson-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-type {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+}
+
+.lesson-actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.lesson-card:hover .lesson-actions {
+  opacity: 1;
+}
+
+.lesson-actions .btn-link {
+  color: #7f8c8d;
+  text-decoration: none;
+}
+
+.lesson-actions .btn-link:hover {
+  color: #2c3e50;
+}
+
+.lesson-info {
+  font-size: 0.85rem;
+}
+
+.lesson-title {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.lesson-group {
+  color: #7f8c8d;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.lesson-teacher,
+.lesson-room {
+  color: #95a5a6;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .schedule-table {
+    min-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-editor {
+    padding: 1rem 0.5rem;
+  }
+
+  .schedule-editor h2 {
+    font-size: 1.5rem;
+  }
+
+  .schedule-table {
+    min-width: 800px;
+  }
+
+  .schedule-table .time-column {
+    width: 80px;
+    min-width: 80px;
+  }
+
+  .schedule-table thead th,
+  .schedule-table .time-cell {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .lesson-card {
+    padding: 0.5rem;
+  }
+
+  .lesson-info {
+    font-size: 0.75rem;
+  }
+}
+
+/* Alerts */
+.schedule-editor .alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Badges */
+.schedule-editor .badge {
+  padding: 0.4rem 0.8rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+

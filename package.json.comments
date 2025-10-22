@@ -1,0 +1,44 @@
+/**
+ * package.json - клиент қолданбасының конфигурациясы
+ * 
+ * Бұл файлда:
+ * - Проект туралы негізгі ақпарат (аты, нұсқасы)
+ * - Қажетті пакеттер (dependencies)
+ * - Дамыту пакеттері (devDependencies)
+ * - Скрипттер (npm командалары)
+ * 
+ * Қысқасы: бұл клиент қолданбасының "қажеттілер тізімі"
+ */
+
+{
+  "name": "schedule-ai-client", // Проект аты
+  "private": true, // Жеке проект (npm-ге жарияламау)
+  "version": "0.0.0", // Нұсқасы
+  "type": "module", // ES модульдерін қолдану
+  "scripts": {
+    "dev": "vite", // Дамыту серверін іске қосу
+    "build": "vite build", // Продакшнға құрастыру
+    "lint": "eslint .", // Код стилін тексеру
+    "preview": "vite preview" // Құрастырылған нұсқаны қарау
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8", // CSS фреймворк
+    "react": "^19.1.1", // React негізгі пакеті
+    "react-bootstrap": "^2.10.10", // Bootstrap компоненттері React үшін
+    "react-bootstrap-icons": "^1.11.6", // Иконкалар
+    "react-dom": "^19.1.1", // React DOM рендерингі
+    "react-router-dom": "^7.9.3", // Маршруттау (беттер арасында өту)
+    "zustand": "^4.4.7" // State management (қолданба жағдайы)
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0", // ESLint конфигурациясы
+    "@types/react": "^19.1.13", // React типтері
+    "@types/react-dom": "^19.1.9", // React DOM типтері
+    "@vitejs/plugin-react": "^5.0.3", // Vite React плагині
+    "eslint": "^9.36.0", // Код стилін тексеру
+    "eslint-plugin-react-hooks": "^5.2.0", // React hooks ережелері
+    "eslint-plugin-react-refresh": "^0.4.20", // React refresh плагині
+    "globals": "^16.4.0", // Глобалды айнымалылар
+    "vite": "^7.1.7" // Vite build tool
+  }
+}
