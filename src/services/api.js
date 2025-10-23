@@ -87,3 +87,67 @@ export const usersAPI = {
   }
 }
 
+// Default API object для использования в других модулях
+const api = {
+  get: async (url, options = {}) => {
+    const response = await fetch(`${API_URL}${url}`, {
+      method: 'GET',
+      headers: {
+        ...(options.responseType === 'blob' ? {} : { 'Content-Type': 'application/json' }),
+        ...getAuthHeaders(),
+        ...options.headers
+      },
+      ...options
+    })
+    
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || 'Қате орын алды')
+    }
+    
+    // Если это blob (файл), возвращаем объект с данными
+    if (options.responseType === 'blob') {
+      return {
+        data: await response.blob(),
+        status: response.status
+      }
+    }
+    
+    const data = await response.json()
+    return data
+  },
+  
+  post: async (url, data, options = {}) => {
+    const isFormData = data instanceof FormData
+    
+    return await fetch(`${API_URL}${url}`, {
+      method: 'POST',
+      headers: {
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+        ...getAuthHeaders(),
+        ...options.headers
+      },
+      body: isFormData ? data : JSON.stringify(data),
+      ...options
+    }).then(async (response) => {
+      const responseData = await response.json()
+      if (!response.ok) {
+        throw new Error(responseData.message || 'Қате орын алды')
+      }
+      return responseData
+    })
+  },
+  
+  put: async (url, data) => {
+    return await request(url, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    })
+  },
+  
+  delete: async (url) => {
+    return await request(url, { method: 'DELETE' })
+  }
+}
+
+export default api

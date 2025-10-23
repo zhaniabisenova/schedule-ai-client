@@ -15,7 +15,7 @@ import { AuthProvider } from './hooks/useAuth'
 import { AppLayout } from './components/layout/AppLayout'
 
 // Барлық беттердің компоненттері
-import { HomeScreen, Login, Profile, Schedule, UploadScreen, NotificationsScreen, AdminHomeScreen } from './screens/index'
+import { HomeScreen, Login, Profile, Schedule, UploadScreen, NotificationsScreen, AdminHomeScreen, ReferencesManagement, ExcelImport } from './screens/index'
 
 // Диспетчер үшін арнайы беттер
 import DispatcherDashboard from './screens/DispatcherDashboard'
@@ -28,7 +28,7 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute'
 // Bootstrap стильдері
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-function App() {
+export default function App() {
   return (
     // AuthProvider - барлық қолданбада пайдаланушы деректерін қол жетімді етеді
     <AuthProvider>
@@ -111,6 +111,26 @@ function App() {
               } 
             />
             
+            {/* Анықтамалықтарды басқару - диспетчер мен админ кіре алады */}
+            <Route 
+              path='/references' 
+              element={
+                <ProtectedRoute allowedRoles={['dispatcher', 'admin']}>
+                  <ReferencesManagement />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Excel импорт - диспетчер мен админ кіре алады */}
+            <Route 
+              path='/import' 
+              element={
+                <ProtectedRoute allowedRoles={['dispatcher', 'admin']}>
+                  <ExcelImport />
+                </ProtectedRoute>
+              } 
+            />
+            
             {/* Кесте редакторы - диспетчер мен админ кіре алады */}
             <Route 
               path='/dispatcher/schedule/:scheduleId' 
@@ -139,5 +159,3 @@ function App() {
     </AuthProvider>
   )
 }
-
-export default App

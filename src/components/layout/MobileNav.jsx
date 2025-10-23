@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { House, Calendar3, Bell, Person, Upload, Grid, PeopleFill } from 'react-bootstrap-icons'
+import { House, Calendar3, Bell, Person, Upload, Grid, PeopleFill, Book, FileEarmarkSpreadsheet } from 'react-bootstrap-icons'
 import { useAuth } from '../../hooks/useAuth.jsx'
 
 export const MobileNav = () => {
@@ -38,8 +38,9 @@ export const MobileNav = () => {
         if (user.role === 'dispatcher') {
             return [
                 ...commonItems,
-                { path: '/schedule', label: 'Кесте', icon: Grid },
-                { path: '/upload', label: 'Жүктеу', icon: Upload },
+                { path: '/references', label: 'Анықтама', icon: Book },
+                { path: '/import', label: 'Импорт', icon: FileEarmarkSpreadsheet },
+                { path: '/dispatcher', label: 'Кесте', icon: Grid },
                 { path: '/profile', label: 'Профиль', icon: Person }
             ]
         }
@@ -48,7 +49,8 @@ export const MobileNav = () => {
             return [
                 ...commonItems,
                 { path: '/admin', label: 'Қолданушы', icon: PeopleFill },
-                { path: '/schedule', label: 'Кесте', icon: Grid },
+                { path: '/references', label: 'Анықтама', icon: Book },
+                { path: '/import', label: 'Импорт', icon: FileEarmarkSpreadsheet },
                 { path: '/profile', label: 'Профиль', icon: Person }
             ]
         }

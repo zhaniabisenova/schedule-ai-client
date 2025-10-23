@@ -6,5 +6,7 @@ import { Profile } from "./Profile";
 import { StatsScreen } from "./StatsScreen";
 import { UploadScreen } from "./UploadScreen";
 import { Schedule } from "./Schedule";
+import ReferencesManagement from "./ReferencesManagement";
+import ExcelImport from "./ExcelImport";
 
-export{AdminHomeScreen,HomeScreen,Login,NotificationsScreen,Profile,StatsScreen,Schedule,UploadScreen}
+export{AdminHomeScreen,HomeScreen,Login,NotificationsScreen,Profile,StatsScreen,Schedule,UploadScreen,ReferencesManagement,ExcelImport}
