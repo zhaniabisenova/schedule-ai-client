@@ -1,18 +1,34 @@
 import { useState, useEffect } from 'react'
 import { usersAPI } from '../services/api'
+import { useAuth } from './useAuth'
 
 export const useUsers = () => {
+    const { isAuthenticated, isLoading: authLoading, user } = useAuth()
     const [users, setUsers] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
     // Загрузка всех пользователей
     const fetchUsers = async () => {
+        // Проверяем права доступа
+        if (!isAuthenticated || !user) {
+            console.log('User not authenticated, skipping users fetch')
+            return { success: false, error: 'Not authenticated' }
+        }
+        
+        // Проверяем роль пользователя (роли могут быть в разном регистре)
+        const userRole = user.role?.toUpperCase()
+        if (userRole !== 'ADMIN' && userRole !== 'DISPATCHER') {
+            console.log('User does not have permission to access users API, role:', user.role)
+            return { success: false, error: 'Insufficient permissions' }
+        }
+        
         setIsLoading(true)
         setError(null)
         
         try {
             const response = await usersAPI.getAll()
+            console.log('Users API response:', response)
             
             if (response.success) {
                 setUsers(response.data)
@@ -109,8 +125,10 @@ export const useUsers = () => {
 
     // Загрузка пользователей при монтировании
     useEffect(() => {
-        fetchUsers()
-    }, [])
+        if (isAuthenticated && !authLoading && user) {
+            fetchUsers()
+        }
+    }, [isAuthenticated, authLoading, user])
 
     return {
         users,

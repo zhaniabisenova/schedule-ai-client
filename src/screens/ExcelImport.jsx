@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { importAPI, semestersAPI } from '../services/referencesAPI'
 import { useUsers } from '../hooks/useUsers'
+import { useAuth } from '../hooks/useAuth'
 import './ExcelImport.css'
 
 const ExcelImport = () => {
+  const { isAuthenticated, isLoading: authLoading } = useAuth()
   const [selectedFile, setSelectedFile] = useState(null)
   const [teacherId, setTeacherId] = useState('')
   const [semesterId, setSemesterId] = useState('')
@@ -18,14 +20,18 @@ const ExcelImport = () => {
   const { users } = useUsers()
 
   useEffect(() => {
-    // Загружаем семестры
-    loadSemesters()
-  }, [])
+    // Загружаем семестры только если пользователь авторизован
+    if (isAuthenticated && !authLoading) {
+      loadSemesters()
+    }
+  }, [isAuthenticated, authLoading])
 
   useEffect(() => {
     // Фильтруем преподавателей из users
-    if (users) {
-      const teacherList = users.filter(u => u.role === 'teacher')
+    if (users && Array.isArray(users)) {
+      const teacherList = users.filter(u => u.role?.toLowerCase() === 'teacher')
+      console.log('All users:', users)
+      console.log('Filtered teachers:', teacherList)
       setTeachers(teacherList)
     }
   }, [users])
@@ -33,15 +39,18 @@ const ExcelImport = () => {
   const loadSemesters = async () => {
     try {
       const response = await semestersAPI.getAll()
-      setSemesters(response.data.data)
+      console.log('Semesters response:', response)
+      const semestersData = response.data || []
+      setSemesters(semestersData)
       
       // Устанавливаем активный семестр по умолчанию
-      const activeSemester = response.data.data.find(s => s.isActive)
+      const activeSemester = semestersData.find(s => s.isActive)
       if (activeSemester) {
         setSemesterId(activeSemester.id.toString())
       }
     } catch (err) {
       console.error('Error loading semesters:', err)
+      setError('Семестрлерді жүктеу қатесі: ' + err.message)
     }
   }
 
@@ -109,8 +118,9 @@ const ExcelImport = () => {
       setImportResult(null)
 
       const response = await importAPI.uploadTeacherLoad(formData)
-      setSuccess(response.data.message)
-      setImportResult(response.data.data)
+      console.log('Import response:', response)
+      setSuccess(response.message || response.data?.message || 'Сәтті импортталды')
+      setImportResult(response.data || response.result || null)
       
       // Очищаем форму
       setSelectedFile(null)
@@ -144,6 +154,36 @@ const ExcelImport = () => {
     } finally {
       setLoading(false)
     }
+  }
+
+  // Проверка аутентификации
+  if (authLoading) {
+    return (
+      <div className="excel-import">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Аутентификация тексерілуде...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="excel-import">
+        <div className="empty-state">
+          <div className="empty-icon">🔐</div>
+          <h3>Кіру қажет</h3>
+          <p>Бұл бетті көру үшін жүйеге кіруіңіз керек</p>
+          <button 
+            className="btn-primary" 
+            onClick={() => window.location.href = '/login'}
+          >
+            Кіру бетіне өту
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

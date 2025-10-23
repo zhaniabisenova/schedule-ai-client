@@ -6,6 +6,12 @@ import './AdminHomeScreen.css'
 
 export const AdminHomeScreen = () => {
     const { users, isLoading, error, createUser, updateUser, deleteUser, fetchUsers } = useUsers()
+    
+    // Отладочная информация
+    console.log('AdminHomeScreen - users:', users)
+    console.log('AdminHomeScreen - isLoading:', isLoading)
+    console.log('AdminHomeScreen - error:', error)
+    
     const [showModal, setShowModal] = useState(false)
     const [modalMode, setModalMode] = useState('create') // 'create' или 'edit'
     const [selectedUser, setSelectedUser] = useState(null)

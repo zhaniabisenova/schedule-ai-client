@@ -11,9 +11,12 @@ import {
   groupsAPI,
   curriculumAPI
 } from '../services/referencesAPI'
+import { useAuth } from '../hooks/useAuth.jsx'
 import './ReferencesManagement.css'
+import { Row, Col } from 'react-bootstrap'
 
 const ReferencesManagement = () => {
+  const { isAuthenticated, isLoading: authLoading } = useAuth()
   const [activeTab, setActiveTab] = useState('semesters')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -52,57 +55,82 @@ const ReferencesManagement = () => {
   ]
 
   useEffect(() => {
-    loadData()
-  }, [activeTab])
+    if (isAuthenticated && !authLoading) {
+      loadData()
+    }
+  }, [activeTab, isAuthenticated, authLoading])
 
   const loadData = async () => {
     setLoading(true)
     setError(null)
     try {
+      console.log('Loading data for tab:', activeTab)
+      console.log('Token exists:', !!localStorage.getItem('token'))
+      
       switch (activeTab) {
         case 'semesters':
           const semData = await semestersAPI.getAll()
-          setSemesters(semData.data.data)
+          console.log('Semesters data:', semData)
+          setSemesters(semData.data || [])
           break
         case 'faculties':
           const facData = await facultiesAPI.getAll()
-          setFaculties(facData.data.data)
+          console.log('Faculties data:', facData)
+          setFaculties(facData.data || [])
           break
         case 'departments':
           const depData = await departmentsAPI.getAll()
-          setDepartments(depData.data.data)
+          console.log('Departments data:', depData)
+          setDepartments(depData.data || [])
           break
         case 'buildings':
           const bldData = await buildingsAPI.getAll()
-          setBuildings(bldData.data.data)
+          console.log('Buildings data:', bldData)
+          setBuildings(bldData.data || [])
           break
         case 'classrooms':
           const clsData = await classroomsAPI.getAll()
-          setClassrooms(clsData.data.data)
+          console.log('Classrooms data:', clsData)
+          setClassrooms(clsData.data || [])
           break
         case 'disciplines':
           const discData = await disciplinesAPI.getAll()
-          setDisciplines(discData.data.data)
+          console.log('Disciplines data:', discData)
+          setDisciplines(discData.data || [])
           break
         case 'timeSlots':
           const tsData = await timeSlotsAPI.getAll()
-          setTimeSlots(tsData.data.data)
+          console.log('TimeSlots data:', tsData)
+          setTimeSlots(tsData.data || [])
           break
         case 'programs':
           const progData = await programsAPI.getAll()
-          setPrograms(progData.data.data)
+          console.log('Programs data:', progData)
+          setPrograms(progData.data || [])
           break
         case 'groups':
           const grpData = await groupsAPI.getAll()
-          setGroups(grpData.data.data)
+          console.log('Groups data:', grpData)
+          setGroups(grpData.data || [])
           break
         case 'curriculum':
           const currData = await curriculumAPI.getAll()
-          setCurriculum(currData.data.data)
+          console.log('Curriculum data:', currData)
+          setCurriculum(currData.data || [])
           break
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Деректерді жүктеу қатесі')
+      console.error('Error loading data:', err)
+      console.error('Error message:', err.message)
+      console.error('Error response:', err.response)
+      
+      if (err.message === 'Аутентификация қажет' || err.message.includes('Authentication')) {
+        setError('Кіру қажет. Жүйеге кіріңіз.')
+        // Перенаправляем на страницу входа
+        window.location.href = '/login'
+      } else {
+        setError(err.message || 'Деректерді жүктеу қатесі')
+      }
     } finally {
       setLoading(false)
     }
@@ -658,6 +686,36 @@ const ReferencesManagement = () => {
     )
   }
 
+  // Если пользователь не аутентифицирован, показываем сообщение
+  if (authLoading) {
+    return (
+      <div className="references-management">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>Аутентификация тексерілуде...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="references-management">
+        <div className="empty-state">
+          <div className="empty-icon">🔐</div>
+          <h3>Кіру қажет</h3>
+          <p>Бұл бетті көру үшін жүйеге кіруіңіз керек</p>
+          <button 
+            className="btn-primary" 
+            onClick={() => window.location.href = '/login'}
+          >
+            Кіру бетіне өту
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="references-management">
       <div className="header">
@@ -694,10 +752,16 @@ const ReferencesManagement = () => {
 
       <div className="content">
         <div className="content-header">
-          <h2>{tabs.find((t) => t.id === activeTab)?.label}</h2>
-          <button className="btn-primary" onClick={handleCreate}>
-            ➕ Жаңа қосу
-          </button>
+          <Row>
+            <Col className='d-flex col-9 justify-content-start align-items-center'>
+              <h2>{tabs.find((t) => t.id === activeTab)?.label}</h2>
+            </Col>
+            <Col className='d-flex  col justify-content-end align-items-center'>
+              <button className="btn-primary text-center d-flex justify-content-center " onClick={handleCreate}>
+                ➕ &nbsp;Жаңа қосу
+              </button>
+            </Col>
+          </Row>
         </div>
 
         {renderTable()}
