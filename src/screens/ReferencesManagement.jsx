@@ -139,7 +139,11 @@ const ReferencesManagement = () => {
   const handleCreate = () => {
     setModalMode('create')
     setSelectedItem(null)
-    setFormData({})
+    // Set default values for groups
+    const defaultValues = activeTab === 'groups' 
+      ? { language: 'KAZAKH', shift: 'MORNING', isActive: true }
+      : {}
+    setFormData(defaultValues)
     setShowModal(true)
   }
 
@@ -613,20 +617,32 @@ const ReferencesManagement = () => {
               <input type="number" value={formData.enrollmentYear || ''} onChange={(e) => handleChange('enrollmentYear', parseInt(e.target.value))} required />
             </div>
             <div className="form-group">
-              <label>Курс номері</label>
-              <input type="number" value={formData.courseNumber || ''} onChange={(e) => handleChange('courseNumber', parseInt(e.target.value))} />
+              <label>Курс номері *</label>
+              <input type="number" value={formData.courseNumber || ''} onChange={(e) => handleChange('courseNumber', parseInt(e.target.value))} required min="1" max="6" />
             </div>
             <div className="form-group">
-              <label>Студенттер саны</label>
-              <input type="number" value={formData.studentsCount || ''} onChange={(e) => handleChange('studentsCount', parseInt(e.target.value))} />
+              <label>Студенттер саны *</label>
+              <input type="number" value={formData.studentsCount || ''} onChange={(e) => handleChange('studentsCount', parseInt(e.target.value))} required min="1" />
             </div>
             <div className="form-group">
-              <label>Тіл</label>
-              <input type="text" value={formData.language || ''} onChange={(e) => handleChange('language', e.target.value)} />
+              <label>Тіл *</label>
+              <select value={formData.language || 'KAZAKH'} onChange={(e) => handleChange('language', e.target.value)} required>
+                <option value="KAZAKH">Қазақша</option>
+                <option value="RUSSIAN">Орысша</option>
+                <option value="ENGLISH">Ағылшынша</option>
+              </select>
             </div>
             <div className="form-group">
-              <label>Бағдарлама ID</label>
-              <input type="number" value={formData.programId || ''} onChange={(e) => handleChange('programId', parseInt(e.target.value))} />
+              <label>Ауысым *</label>
+              <select value={formData.shift || 'MORNING'} onChange={(e) => handleChange('shift', e.target.value)} required>
+                <option value="MORNING">Таңғы</option>
+                <option value="AFTERNOON">Кешкі</option>
+                <option value="FLEXIBLE">Икемді</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Бағдарлама ID *</label>
+              <input type="number" value={formData.programId || ''} onChange={(e) => handleChange('programId', parseInt(e.target.value))} required />
             </div>
             <div className="form-group">
               <label>
