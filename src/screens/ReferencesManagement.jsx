@@ -556,13 +556,14 @@ const ReferencesManagement = () => {
               <label>Ауысым *</label>
               <select value={formData.shift || ''} onChange={(e) => handleChange('shift', e.target.value)} required>
                 <option value="">Таңдаңыз</option>
-                <option value="1">1-ші ауысым</option>
-                <option value="2">2-ші ауысым</option>
+                <option value="MORNING">Таңғы</option>
+                <option value="AFTERNOON">Кешкі</option>
+                <option value="FLEXIBLE">Икемді</option>
               </select>
             </div>
             <div className="form-group">
               <label>Жұп номері *</label>
-              <input type="number" value={formData.pairNumber || ''} onChange={(e) => handleChange('pairNumber', parseInt(e.target.value))} required />
+              <input type="number" value={formData.pairNumber || ''} onChange={(e) => handleChange('pairNumber', parseInt(e.target.value))} required min="1" max="6" />
             </div>
             <div className="form-group">
               <label>Басталу уақыты *</label>
