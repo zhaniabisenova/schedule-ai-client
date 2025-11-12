@@ -315,7 +315,7 @@ const ReferencesManagement = () => {
         break
       case 'programs':
         data = programs
-        columns = ['code', 'nameKz', 'nameRu', 'degreeLevel', 'durationYears', 'isActive']
+        columns = ['code', 'nameKz', 'nameRu', 'department.nameRu', 'degreeLevel', 'durationYears', 'credits', 'isActive']
         break
       case 'groups':
         data = groups
@@ -578,6 +578,10 @@ const ReferencesManagement = () => {
         {activeTab === 'programs' && (
           <>
             <div className="form-group">
+              <label>Кафедра ID *</label>
+              <input type="number" value={formData.departmentId || ''} onChange={(e) => handleChange('departmentId', parseInt(e.target.value))} required />
+            </div>
+            <div className="form-group">
               <label>Код *</label>
               <input type="text" value={formData.code || ''} onChange={(e) => handleChange('code', e.target.value)} required />
             </div>
@@ -590,12 +594,21 @@ const ReferencesManagement = () => {
               <input type="text" value={formData.nameRu || ''} onChange={(e) => handleChange('nameRu', e.target.value)} required />
             </div>
             <div className="form-group">
-              <label>Деңгей</label>
-              <input type="text" value={formData.degreeLevel || ''} onChange={(e) => handleChange('degreeLevel', e.target.value)} />
+              <label>Деңгей *</label>
+              <select value={formData.degreeLevel || ''} onChange={(e) => handleChange('degreeLevel', e.target.value)} required>
+                <option value="">Таңдаңыз</option>
+                <option value="BACHELOR">Бакалавр</option>
+                <option value="MASTER">Магистр</option>
+                <option value="PHD">PhD</option>
+              </select>
             </div>
             <div className="form-group">
-              <label>Оқу ұзақтығы (жыл)</label>
-              <input type="number" value={formData.durationYears || ''} onChange={(e) => handleChange('durationYears', parseInt(e.target.value))} />
+              <label>Оқу ұзақтығы (жыл) *</label>
+              <input type="number" value={formData.durationYears || ''} onChange={(e) => handleChange('durationYears', parseInt(e.target.value))} required min="1" max="6" />
+            </div>
+            <div className="form-group">
+              <label>Кредиттер *</label>
+              <input type="number" value={formData.credits || ''} onChange={(e) => handleChange('credits', parseInt(e.target.value))} required min="1" />
             </div>
             <div className="form-group">
               <label>
