@@ -159,6 +159,7 @@ const ReferencesManagement = () => {
 
     try {
       setLoading(true)
+      setError(null)
       switch (activeTab) {
         case 'semesters':
           await semestersAPI.delete(id)
@@ -194,7 +195,26 @@ const ReferencesManagement = () => {
       setSuccess('Сәтті өшірілді!')
       loadData()
     } catch (err) {
-      setError(err.response?.data?.message || 'Өшіру қатесі')
+      const errorMessage = err.response?.data?.message || 'Өшіру қатесі'
+      
+      // Add helpful context for foreign key constraint errors
+      if (errorMessage.includes('байланысты')) {
+        let hint = ''
+        if (activeTab === 'departments') {
+          hint = ' Алдымен осы кафедраға қатысты барлық оқу бағдарламаларын өшіріңіз немесе басқа кафедраға ауыстырыңыз.'
+        } else if (activeTab === 'faculties') {
+          hint = ' Алдымен осы факультетке қатысты барлық кафедралар мен бағдарламаларды өшіріңіз.'
+        } else if (activeTab === 'programs') {
+          hint = ' Алдымен осы бағдарламаға қатысты барлық топтар мен оқу жоспарларын өшіріңіз.'
+        } else if (activeTab === 'buildings') {
+          hint = ' Алдымен осы корпустағы барлық аудиторияларды өшіріңіз.'
+        } else if (activeTab === 'disciplines') {
+          hint = ' Алдымен осы пәнге қатысты барлық оқу жоспарлары мен жүктемелерді өшіріңіз.'
+        }
+        setError(errorMessage + hint)
+      } else {
+        setError(errorMessage)
+      }
     } finally {
       setLoading(false)
     }
@@ -563,7 +583,7 @@ const ReferencesManagement = () => {
             </div>
             <div className="form-group">
               <label>Жұп номері *</label>
-              <input type="number" value={formData.pairNumber || ''} onChange={(e) => handleChange('pairNumber', parseInt(e.target.value))} required min="1" max="6" />
+              <input type="number" value={formData.pairNumber || ''} onChange={(e) => handleChange('pairNumber', parseInt(e.target.value))} required min="1" max="15" />
             </div>
             <div className="form-group">
               <label>Басталу уақыты *</label>
