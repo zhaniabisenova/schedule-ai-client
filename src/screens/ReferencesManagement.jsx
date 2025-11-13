@@ -564,8 +564,15 @@ const ReferencesManagement = () => {
               <input type="number" value={formData.credits || ''} onChange={(e) => handleChange('credits', parseInt(e.target.value))} required />
             </div>
             <div className="form-group">
-              <label>Категория</label>
-              <input type="text" value={formData.category || ''} onChange={(e) => handleChange('category', e.target.value)} />
+              <label>Категория *</label>
+              <select value={formData.category || ''} onChange={(e) => handleChange('category', e.target.value)} required>
+                <option value="">Таңдаңыз</option>
+                <option value="OK">ОК - Обязательный компонент</option>
+                <option value="KV">КВ - Компонент по выбору</option>
+                <option value="UNIVERSITY">Вузовский компонент</option>
+                <option value="PRK">ПРК - Профессиональный компонент</option>
+                <option value="GA">ГА - Государственная аттестация</option>
+              </select>
             </div>
           </>
         )}
